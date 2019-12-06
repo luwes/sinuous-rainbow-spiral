@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset='utf-8'>
+	<meta name='viewport' content='width=device-width,initial-scale=1'>
+	<title>Sinuous app</title>
+	<link rel='icon' href='favicon.ico'>
+	<link rel='stylesheet' href='global.css'>
+	<script defer src='build/bundle.js'></script>
+</head>
+<body>
+	<p>
+		Move your mouse around and click. Everything triggers a full render.
+	</p>
+	<p>
+		Powered by <a href="https://github.com/luwes/sinuous" target="_blank">Sinuous</a>.
+	</p>
+	<script>
+		var script=document.createElement('script');script.onload=function(){var stats=new Stats();document.body.appendChild(stats.dom);stats.dom.className='stats';requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};script.src='//mrdoob.github.io/stats.js/build/stats.min.js';document.head.appendChild(script);
+	</script>
+</body>
+</html>
