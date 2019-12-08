@@ -86,6 +86,10 @@ function Main() {
 		Array(max()).fill(0).map((_, i) => cache[i] || (cache[i] = makeCursor(i))));
 
 	function makeCursor(i) {
+		// `sample` gets the observable value without making itself a dependency.
+		// The only observable dependency in these functions is `max()` which is
+		// derived from `counter()`. In other words only when `counter()` is
+		// updated with a new value does the element's style get updated.
 		return {
 			x() {
 				let f = i / max() * LOOPS,
@@ -130,6 +134,10 @@ function Cursor({ big, label, x, y, color }) {
 
 	let inner = null;
 	if (label) inner = html`<span class="label">${x},${y}</span>`;
+
+	// Here `big()` is the dependency for updating the class name of the dot.
+	// Internally `Node.className = ` will only run when big's value changes.
+	// It's like each dynamic part has its own `render` function.
 	return html`<div class=${() => getClass(big(), label)}
     style=left:${x}px;top:${y}px;border-color:${color}>${inner}</div>`;
 }
