@@ -3,7 +3,7 @@ import { h } from 'sinuous';
 import { observable, computed, subscribe, sample } from 'sinuous/observable';
 import { map } from 'sinuous/map';
 
-const counts = [50, 100, 200, 500, 1000, 2000];
+const counts = [200, 500, 1000, 2000];
 const count = observable(counts[0]);
 const LOOPS = 6;
 
@@ -17,8 +17,8 @@ function AnimationPicker() {
 
 	const timingFunctions = {
 		'requestAnimationFrame': requestAnimationFrame,
-		'setTimeout(100)': f => setTimeout(f, 100),
 		'requestIdleCallback': f => requestIdleCallback(f, IDLE_TIMEOUT),
+		'setTimeout(100)': f => setTimeout(f, 100),
 		'setTimeout(0)': f => setTimeout(f, 0)
 	};
 
@@ -78,35 +78,32 @@ function Main() {
 		y(pageY);
 	}
 
-	const max = computed(function mmax() {
-		return count() + Math.round(Math.sin(counter() / 90 * 2 * Math.PI) * count() * 0.5);
-	});
+	const max = computed(() =>
+		count() + Math.round(Math.sin(counter() / 90 * 2 * Math.PI) * count() * 0.5));
 
 	const cache = [];
-	const cursors = computed(function ccursors() {
-		const list = Array(max()).fill(0);
-		return sample(() => list.map((_, i) => cache[i] || (cache[i] = cursor(i))));
-	});
+	const cursors = computed(() =>
+		Array(max()).fill(0).map((_, i) => cache[i] || (cache[i] = makeCursor(i))));
 
-	function cursor(i) {
+	function makeCursor(i) {
 		return {
-			x: computed(function xx() {
+			x() {
 				let f = i / max() * LOOPS,
 					θ = f * 2 * Math.PI,
 					m = 20 + i * 2;
 				return (sample(x) + Math.sin(θ) * m) | 0;
-			}),
-			y: computed(function yy() {
+			},
+			y() {
 				let f = i / max() * LOOPS,
 					θ = f * 2 * Math.PI,
 					m = 20 + i * 2;
 				return (sample(y) + Math.cos(θ) * m) | 0;
-			}),
-			color: computed(function ccolor() {
+			},
+			color() {
 				let f = i / max() * LOOPS,
 					hue = (f * 255 + sample(counter) * 10) % 255;
 				return 'hsl(' + hue + ',100%,50%)';
-			})
+			}
 		};
 	}
 
@@ -121,8 +118,7 @@ function Main() {
 }
 
 /** Represents a single coloured dot. */
-function Cursor(props) {
-	const { big, label, x, y, color } = props;
+function Cursor({ big, label, x, y, color }) {
 
 	// get shared/pooled class object
 	function getClass(big, label) {
