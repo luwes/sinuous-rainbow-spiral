@@ -7,8 +7,8 @@ Fork of a Preact demo https://codepen.io/developit/full/xGoagz/
 Clone the repo, install dependencies, `npm run dev`, `npm run start`, open [localhost:5000](http://localhost:5000):
 
 ```
-git clone https://github.com/luwes/sinuous-three-boxes
-cd sinuous-three-boxes
+git clone https://github.com/luwes/sinuous-rainbow-spiral
+cd sinuous-rainbow-spiral
 npm i
 npm run dev
 npm run start
