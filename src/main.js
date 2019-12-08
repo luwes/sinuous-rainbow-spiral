@@ -1,7 +1,7 @@
 // Fork of https://codepen.io/developit/full/xGoagz/
 import { h } from 'sinuous';
 import { observable, computed, subscribe, sample } from 'sinuous/observable';
-import { map } from 'sinuous/map';
+import { map } from 'sinuous/map/mini';
 
 const counts = [200, 500, 1000, 2000];
 const count = observable(counts[0]);
@@ -29,7 +29,7 @@ function AnimationPicker() {
       Timing:
       <select value=${timingFunction} onchange=${(e) => timingFunction(e.target.value)}>
         ${() => Object.keys(timingFunctions).map(name => html`
-          <option value=${name} disabled=${timingFunctions[name]===undefined}>${name}</option>
+          <option value=${name} disabled=${timingFunctions[name] === undefined}>${name}</option>
         `) }
       </select>
     </label>
